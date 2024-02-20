@@ -1,0 +1,7 @@
+wget
+appdirs
+tempdir
+multipledispatch
+numpy
+tqdm
+termcolor
