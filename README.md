@@ -20,7 +20,7 @@
 
 - 🚀 **Deploying Demo on HuggingFace Spaces;** 
 
-- 🛠️ **Open Sourcing Demo Local Deployment Code with a Setup Guide:** 
+- 🛠️ **Open Sourcing Demo Local Deployment Code with a Setup Guide** 
 
 ## 🔔News
 🚀[2024-02-23]: We have open-sourced the datasets used in our project named Code-Feedback.
