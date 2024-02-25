@@ -12,9 +12,9 @@
 
 ## 🌟 Upcoming Features
 
-- 📈 **Adding OpenCodeInterpreter-DS-1.3b Model;** 
+- 📈 **Open Sourcing OpenCodeInterpreter-DS-1.3b Model;** 
 
-- 💡 **Introducing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
+- 💡 **Open Sourcing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
 
 - 📊 **Open Sourcing CodeFeedback-Filtered-Instruction Dataset;** 
 
