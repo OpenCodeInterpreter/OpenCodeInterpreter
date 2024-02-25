@@ -12,13 +12,13 @@
 
 ## 🌟 Upcoming Features
 
-- 📈 **Adding OpenCodeInterpreter-DS-1.3b Model:** 
+- 📈 **Adding OpenCodeInterpreter-DS-1.3b Model;** 
 
-- 💡 **Introducing OpenCodeInterpreter-GM-7b Model with gemma-7b Base:** 
+- 💡 **Introducing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
 
-- 📊 **Open Sourcing CodeFeedback-Filtered-Instruction Dataset:** 
+- 📊 **Open Sourcing CodeFeedback-Filtered-Instruction Dataset;** 
 
-- 🚀 **Deploying Demo on HuggingFace Spaces:** 
+- 🚀 **Deploying Demo on HuggingFace Spaces;** 
 
 - 🛠️ **Open Sourcing Demo Local Deployment Code with a Setup Guide:** 
 
