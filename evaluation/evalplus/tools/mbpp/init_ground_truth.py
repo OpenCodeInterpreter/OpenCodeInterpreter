@@ -8,7 +8,7 @@ import pathlib
 from evalplus.data.mbpp import get_mbpp
 
 if __name__ == "__main__":
-    # check existance of ground truth folder
+    # check existence of ground truth folder
     GT_DIR = pathlib.Path(__file__).parent.parent.parent / "groundtruth" / "mbpp"
 
     assert not os.path.exists(
