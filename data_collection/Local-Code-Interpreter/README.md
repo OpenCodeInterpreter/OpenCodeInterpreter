@@ -5,7 +5,7 @@ A local implementation of OpenAI's ChatGPT Code Interpreter (Advanced Data Analy
 
 ## Introduction
 
-OpenAI's Code Interpreter (currently renamed as Advanced Data Analysis) for ChatGPT is a revolutionary feature that allows the execution of Python code within the AI model. However, it execute code within an online sandbox and has certain limitations. In this project, we present Local Code Interpreter – which enables code execution on your local device, offering enhanced flexibility, security, and convenience.
+OpenAI's Code Interpreter (currently renamed as Advanced Data Analysis) for ChatGPT is a revolutionary feature that allows the execution of Python code within the AI model. However, it executes code within an online sandbox and has certain limitations. In this project, we present Local Code Interpreter – which enables code execution on your local device, offering enhanced flexibility, security, and convenience.
 ![notebook_gif_demo](example_img/save_to_notebook_demo.gif)
 
 ## Key Advantages
@@ -14,14 +14,14 @@ OpenAI's Code Interpreter (currently renamed as Advanced Data Analysis) for Chat
 
 - **Seamless Experience**: Say goodbye to file size restrictions and internet issues while uploading. With Local Code Interpreter, you're in full control.
 
-- **GPT-3.5 Availability**: While official Code Interpreter is only available for GPT-4 model, the Local Code Interpreter offers the flexibility to switch between both GPT-3.5 and GPT-4 models.
+- **GPT-3.5 Availability**: While the official Code Interpreter is only available for GPT-4 model, the Local Code Interpreter offers the flexibility to switch between both GPT-3.5 and GPT-4 models.
 
 - **Enhanced Data Security**: Keep your data more secure by running code locally, minimizing data transfer over the internet.
 
 - **Jupyter Support**: You can save all the code and conversation history in a Jupyter notebook for future use.
 
 ## Note
-Executing AI-generated code without human review on your own device is not safe. You are responsible for taking measures to protect the security of your device and data (such as using a virtural machine) before launching this program. All consequences caused by using this program shall be borne by youself.
+Executing AI-generated code without human review on your own device is not safe. Before launching this program, you are responsible for taking measures to protect the security of your device and data (such as using a virtual machine). All consequences caused by using this program shall be borne by you.
 
 ## Usage
 
@@ -65,7 +65,7 @@ Please Note:
     - `gpt-4-0613` (and its 32K version)
     - `gpt-4-1106-preview` 
 
-    Older versions of the models will not work. Note that `gpt-4-vision-preview` lacks support for function calling, therefore, it should not be set as `GPT-4` model. 
+    Older versions of the models will not work. Note that `gpt-4-vision-preview` lacks support for calling functions, therefore, it should not be set as `GPT-4` model. 
 
     For Azure OpenAI service users:
     - Set the `model_name` as your deployment name.
@@ -75,7 +75,7 @@ Please Note:
     If you're using Azure OpenAI service, set the `API_VERSION` to `2023-12-01-preview` in the `config.json` file. Note that API versions older than `2023-07-01-preview` do not support the necessary function calls for this program and `2023-12-01-preview` is recommended as older versions will be deprecated in the near future.
 
 3. **Vision Model Settings**
-    Despite the `gpt-4-vision-preview` currently does not support function calling, we have implemented vision input using a non-end-to-end approach. To enable vision input, set `gpt-4-vision-preview` as `GPT-4V` model and set `available` to `true`.  Conversely, setting `available` to `false` to disables vision input when unnecessary, which will remove vision-related system prompts and reduce your API costs.
+    Despite the `gpt-4-vision-preview` currently does not support function calling, we have implemented vision input using a non-end-to-end approach. To enable vision input, set `gpt-4-vision-preview` as `GPT-4V` model and set `available` to `true`.  Conversely, setting `available` to `false` disables vision input when unnecessary, which will remove vision-related system prompts and reduce your API costs.
     ![vision_demo](example_img/vision_example.jpg)
 4. **Model Context Window Settings**
     The `model_context_window` field records the context window for each model, which the program uses to slice conversations when they exceed the model's context window capacity. 
@@ -84,7 +84,7 @@ Please Note:
     "<YOUR-DEPLOYMENT-NAME>": <contex_window (integer)>
     ```
    
-    Additionally, when OpenAI introduce new models, you can manually append the new model's context window information using the same format. (We will keep this file updated, but there might be delays)
+    Additionally, when OpenAI introduces new models, you can manually append the new model's context window information using the same format. (We will keep this file updated, but there might be delays)
 
 5. **Alternate API Key Handling**
     If you prefer not to store your API key in the `config.json` file, you can opt for an alternate approach:
