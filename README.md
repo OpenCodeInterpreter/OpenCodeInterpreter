@@ -19,9 +19,9 @@
 - 🛠️ **Open Sourcing Demo Local Deployment Code with a Setup Guide** 
 
 ## 🔔News
-✨[2024-02-26]: We have open-sourced the OpenCodeInterpreter-DS-1.3b Model.
+✨[2024-02-26]: We have open-sourced the [OpenCodeInterpreter-DS-1.3b](https://huggingface.co/m-a-p/OpenCodeInterpreter-DS-1.3B) Model.
 
-📘[2024-02-26]: We have open-sourced the CodeFeedback-Filtered-Instruction Dataset.
+📘[2024-02-26]: We have open-sourced the [CodeFeedback-Filtered-Instruction](https://huggingface.co/datasets/m-a-p/CodeFeedback-Filtered-Instruction) Dataset.
 
 🚀[2024-02-23]: We have open-sourced the datasets used in our project named Code-Feedback.
 
