@@ -16,7 +16,7 @@
 - 💡 **Open Sourcing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
 
 ## 🔔News
-🛠️[2024-02-29]: Our official online demo is deployed on HuggingFace Spaces! Take a look at [Demo Page](https://huggingface.co/spaces/m-a-p/OpenCodeInterpreter_demo)
+🛠️[2024-02-29]: Our official online demo is deployed on HuggingFace Spaces! Take a look at [Demo Page](https://huggingface.co/spaces/m-a-p/OpenCodeInterpreter_demo)!
 
 🛠️[2024-02-28]: We have open-sourced the Demo Local Deployment Code with a Setup Guide.
 
