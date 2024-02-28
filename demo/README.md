@@ -26,23 +26,6 @@ By using this demo, you acknowledge that you have read this disclaimer, understa
 
 - **Save conversations to both**
 
-## Quick Start
-
-- **Create a new conda environment**: `conda create -n demo python=3.10`
-
-- **Activate the demo environment you create**: `conda activate demo`
-
-- **Install requirements**: `pip install -r requirements.txt`
-
-- **Create a Huggingface access token with write permission [here](https://huggingface.co/docs/hub/en/security-tokens). Our code will only use this token to create and push content to a specific repository called `opencodeinterpreter_user_data` under your own Huggingface account. We cannot get access to your data if you deploy this demo on your own device.**
-
-- **Add the access token to environment variables:** `export HF_TOKEN="your huggingface access token"`
-
-- **Run the Gradio App**:
-   ```bash
-   python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
-   ```
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
