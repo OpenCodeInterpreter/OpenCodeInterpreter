@@ -71,6 +71,7 @@ To begin exploring the demo and experiencing the capabilities firsthand, please 
    ```bash
    python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
    ```
+### Video
 
 ## Contact
 
