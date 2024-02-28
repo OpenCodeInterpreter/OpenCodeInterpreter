@@ -12,10 +12,9 @@ mbpp
 )
 
 i=0
-for MODEL_NAME_OR_PATH in "${MODEL_NAME_OR_PATHS}[@]"; do
+for MODEL_NAME_OR_PATH in "${MODEL_NAME_OR_PATHS[@]}"; do
     for DATASET_TYPE in "${DATASET_TYPES[@]}"; do
         gpu_rank=$((i + gpu_start))
-        MODEL_NAME_OR_PATH="${MODEL_NAME_OR_PATHS[$rank]}"
         MODEL=$(echo "$MODEL_NAME_OR_PATH" | sed 's|/|_|g')
 
         output_path="./output"
