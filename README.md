@@ -35,10 +35,6 @@ OpenCodeInterpreter is a suite of open-source code generation systems aimed at b
 ## Models
 All models within the OpenCodeInterpreter series have been open-sourced on Hugging Face. You can access our models via the following link: [OpenCodeInterpreter Models](https://huggingface.co/collections/m-a-p/opencodeinterpreter-65d312f6f88da990a64da456).
 
-## Demo
-We're excited to present our open-source demo, enabling users to effortlessly generate and execute code with our LLM locally. Within the demo, users can leverage the power of LLM to generate code and execute it locally, receiving automated execution feedback. LLM dynamically adjusts the code based on this feedback, ensuring a smoother coding experience. Additionally, users can engage in chat-based interactions with the LLM model, providing feedback to further enhance the generated code.
-
-To begin exploring the demo and experiencing the capabilities firsthand, please refer to the instructions outlined in the [OpenCodeInterpreter Demo README](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/demo/README.md) file. Happy coding!
 
 https://github.com/OpenCodeInterpreter/opencodeinterpreter.github.io/raw/main/static/images/demo.mp4
 
@@ -49,6 +45,29 @@ For additional insights into data collection procedures, please consult the read
 ## Evaluation
 Our evaluation framework primarily utilizes HumanEval and MBPP, alongside their extended versions, HumanEval+ and MBPP+, leveraging the [EvalPlus framework](https://github.com/evalplus/evalplus) for a more comprehensive assessment.
 For specific evaluation methodologies, please refer to the [Evaluation README](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/evaluation/README.md) for more details.
+
+## Demo
+We're excited to present our open-source demo, enabling users to effortlessly generate and execute code with our LLM locally. Within the demo, users can leverage the power of LLM to generate code and execute it locally, receiving automated execution feedback. LLM dynamically adjusts the code based on this feedback, ensuring a smoother coding experience. Additionally, users can engage in chat-based interactions with the LLM model, providing feedback to further enhance the generated code.
+
+To begin exploring the demo and experiencing the capabilities firsthand, please refer to the instructions outlined in the [OpenCodeInterpreter Demo README](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/demo/README.md) file. Happy coding!
+
+### Quick Start
+- **Entering the workspace**: `cd demo`
+
+- **Create a new conda environment**: `conda create -n demo python=3.10`
+
+- **Activate the demo environment you create**: `conda activate demo`
+
+- **Install requirements**: `pip install -r requirements.txt`
+
+- **Create a Huggingface access token with write permission [here](https://huggingface.co/docs/hub/en/security-tokens). Our code will only use this token to create and push content to a specific repository called `opencodeinterpreter_user_data` under your own Huggingface account. We cannot get access to your data if you deploy this demo on your own device.**
+
+- **Add the access token to environment variables:** `export HF_TOKEN="your huggingface access token"`
+
+- **Run the Gradio App**:
+   ```bash
+   python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
+   ```
 
 ## Contact
 
