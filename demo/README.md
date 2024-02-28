@@ -24,7 +24,7 @@ By using this demo, you acknowledge that you have read this disclaimer, understa
 
 - **Multi-user support: conversations and code won't interfere each other.**
 
-- **Save conversations to both **
+- **Save conversations to both**
 
 ## Quick Start
 
