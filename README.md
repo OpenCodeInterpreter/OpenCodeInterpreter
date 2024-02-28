@@ -35,6 +35,13 @@ OpenCodeInterpreter is a suite of open-source code generation systems aimed at b
 ## Models
 All models within the OpenCodeInterpreter series have been open-sourced on Hugging Face. You can access our models via the following link: [OpenCodeInterpreter Models](https://huggingface.co/collections/m-a-p/opencodeinterpreter-65d312f6f88da990a64da456).
 
+## Demo
+We're excited to present our open-source demo, enabling users to effortlessly generate and execute code with our LLM locally. Within the demo, users can leverage the power of LLM to generate code and execute it locally, receiving automated execution feedback. LLM dynamically adjusts the code based on this feedback, ensuring a smoother coding experience. Additionally, users can engage in chat-based interactions with the LLM model, providing feedback to further enhance the generated code.
+
+To begin exploring the demo and experiencing the capabilities firsthand, please refer to the instructions outlined in the [OpenCodeInterpreter Demo README](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/demo/README.md) file. Happy coding!
+
+https://github.com/OpenCodeInterpreter/opencodeinterpreter.github.io/raw/main/static/images/demo.mp4
+
 ## Data Collection
 Supported by Code-Feedback, a dataset featuring 68K multi-turn interactions, OpenCodeInterpreter incorporates execution and human feedback for dynamic code refinement. 
 For additional insights into data collection procedures, please consult the readme provided under [Data Collection](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/data_collection/README.md).
