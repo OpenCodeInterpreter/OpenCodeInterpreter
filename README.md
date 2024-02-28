@@ -52,8 +52,11 @@ We're excited to present our open-source demo, enabling users to effortlessly ge
 To begin exploring the demo and experiencing the capabilities firsthand, please refer to the instructions outlined in the [OpenCodeInterpreter Demo README](https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/blob/main/demo/README.md) file. Happy coding!
 
 ### Quick Start
-- **Entering the workspace**: `cd demo`
-
+- **Entering the workspace**:
+   ```bash
+   python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
+   cd demo
+   ```
 - **Create a new conda environment**: `conda create -n demo python=3.10`
 
 - **Activate the demo environment you create**: `conda activate demo`
