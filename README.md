@@ -54,7 +54,7 @@ To begin exploring the demo and experiencing the capabilities firsthand, please 
 ### Quick Start
 - **Entering the workspace**:
    ```bash
-   python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
+   git clone https://github.com/OpenCodeInterpreter/OpenCodeInterpreter.git
    cd demo
    ```
 - **Create a new conda environment**: `conda create -n demo python=3.10`
