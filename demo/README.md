@@ -22,9 +22,9 @@ By using this demo, you acknowledge that you have read this disclaimer, understa
 
 ## Features
 
-- **Multi-user support: conversations and code won't interfere each other.**
+- **Multi-user support**
 
-- **Save conversations to both**
+- **Save your conversations to both Huggingface datasets and offline json files**
 
 ## License
 
