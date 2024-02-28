@@ -11,13 +11,13 @@
 <hr>
 
 ## 🌟 Upcoming Features
-- 💡 **Open Sourcing OpenCodeInterpreter-SC2 series Model(base StarCoder2 base);** 
+- 💡 **Open Sourcing OpenCodeInterpreter-SC2 series Model (based on StarCoder2 base);** 
 
 - 💡 **Open Sourcing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
 
-- 🚀 **Deploying Demo on HuggingFace Spaces;** 
-
 ## 🔔News
+🛠️[2024-02-29]: Our official online demo is deployed on HuggingFace Spaces! Take a look at [Demo Page](https://huggingface.co/spaces/m-a-p/OpenCodeInterpreter_demo)
+
 🛠️[2024-02-28]: We have open-sourced the Demo Local Deployment Code with a Setup Guide.
 
 ✨[2024-02-26]: We have open-sourced the [OpenCodeInterpreter-DS-1.3b](https://huggingface.co/m-a-p/OpenCodeInterpreter-DS-1.3B) Model.
@@ -26,7 +26,7 @@
 
 🚀[2024-02-23]: We have open-sourced the datasets used in our project named [Code-Feedback](https://huggingface.co/datasets/m-a-p/Code-Feedback).
 
-🔥[2024-02-19]: We have open-sourced all models in the OpenCodeInterpreter series ! We welcome everyone to try out our models and look forward to your participation! 😆
+🔥[2024-02-19]: We have open-sourced all models in the OpenCodeInterpreter series! We welcome everyone to try out our models and look forward to your participation! 😆
 
 
 
