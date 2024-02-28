@@ -43,9 +43,6 @@ By using this demo, you acknowledge that you have read this disclaimer, understa
    python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
    ```
 
-## Demo
-
-
 ## License
 
 Distributed under the MIT License. See `LICENSE` for more information.
