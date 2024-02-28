@@ -77,3 +77,7 @@ https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/assets/46103100/2337f
 
 If you have any inquiries, please feel free to raise an issue or reach out to us via email at: xiangyue.work@gmail.com, zhengtianyu0428@gmail.com. 
 We're here to assist you!
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=OpenCodeInterpreter/OpenCodeInterpreter&type=Date)](https://star-history.com/#OpenCodeInterpreter/OpenCodeInterpreter&Date)
