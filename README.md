@@ -11,6 +11,7 @@
 <hr>
 
 ## 🌟 Upcoming Features
+- 💡 **Open Sourcing OpenCodeInterpreter-SC2 series Model(base StarCoder2 base);** 
 
 - 💡 **Open Sourcing OpenCodeInterpreter-GM-7b Model with gemma-7b Base;** 
 
