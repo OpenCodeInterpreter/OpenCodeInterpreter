@@ -73,6 +73,8 @@ To begin exploring the demo and experiencing the capabilities firsthand, please 
    python3 chatbot.py --path "the model name of opencodeinterpreter model family. e.g., m-a-p/OpenCodeInterpreter-DS-6.7B"
    ```
 ### Video
+https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/assets/46103100/2337f34d-f5ed-4ecb-857b-3c2d085b72fd
+
 
 ## Contact
 
