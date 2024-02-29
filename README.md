@@ -78,6 +78,19 @@ https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/assets/46103100/2337f
 If you have any inquiries, please feel free to raise an issue or reach out to us via email at: xiangyue.work@gmail.com, zhengtianyu0428@gmail.com. 
 We're here to assist you!
 
+## Citation
+
+If you find this repo useful for your research, please kindly cite our paper:
+
+```
+@article{zheng2024opencodeinterpreter,
+   title={OpenCodeInterpreter: Integrating Code Generation with Execution and Refinement},
+   author={Zheng, Tianyu and Zhang, Ge and Shen, Tianhao and Liu, Xueling and Lin, Bill Yuchen and Fu, Jie and Chen, Wenhu and Yue, Xiang},
+   journal={arXiv preprint arXiv:2402.14658},
+   year={2024}
+}
+```
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=OpenCodeInterpreter/OpenCodeInterpreter&type=Date)](https://star-history.com/#OpenCodeInterpreter/OpenCodeInterpreter&Date)
