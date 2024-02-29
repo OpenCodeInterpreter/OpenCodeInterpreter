@@ -5,7 +5,10 @@
 </p>
 <p align="center">
   <a href="https://opencodeinterpreter.github.io/">[🏠Homepage]</a> 
-  |
+  |<a href="https://arxiv.org/abs/2402.14658">[📄arXiv]</a> |
+<a href="https://huggingface.co/papers/2402.14658">[🤗HF Paper]</a> |
+<a href="https://huggingface.co/datasets/m-a-p/Code-Feedback/">[📊Datasets]</a> |
+<a href="https://huggingface.co/collections/m-a-p/opencodeinterpreter-65d312f6f88da990a64da456">[🤖Models]</a> |
   <a href="https://github.com/OpenCodeInterpreter/OpenCodeInterpreter/">[🛠️Code]</a> 
 </p>
 <hr>
