@@ -17,7 +17,7 @@
 
 
 ## 🔔News
-💡[2024-03-01]: We have open-sourced OpenCodeInterpreter-SC2 series Model (based on StarCoder2 base) and OpenCodeInterpreter-GM-7b Model with gemma-7b Base!
+💡[2024-03-01]: We have open-sourced OpenCodeInterpreter-SC2 series Model (based on StarCoder2 base) and OpenCodeInterpreter-GM-7b Model with gemma-7b!
 
 🛠️[2024-02-29]: Our official online demo is deployed on HuggingFace Spaces! Take a look at [Demo Page](https://huggingface.co/spaces/m-a-p/OpenCodeInterpreter_demo)!
 
