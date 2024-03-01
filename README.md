@@ -67,8 +67,7 @@ The OpenCodeInterpreter Models series exemplifies the evolution of coding model 
 | + Execution Feedback | 67.1 (60.4) | 63.4 (54.9) | 65.3 (57.7) |
 | **OpenCodeInterpreter-STAR2-7B** | 73.8 (68.9) | 61.7 (51.1) | 67.8 (60.0) |
 | + Execution Feedback | 75.6 (69.5) | 66.9 (55.4) | 71.3 (62.5) |
-| **OpenCodeInterpreter-STAR2-15B** | 73.8 (68.9) | 61.7 (51.1) | 67.8 (60.0) |
-| + Execution Feedback | 75.6 (69.5) | 66.9 (55.4) | 71.3 (62.5) |
+
 
 *Note: The "(+)" notation represents scores from extended versions of the HumanEval and MBPP benchmarks. To ensure a fair comparison, the results shown for adding execution feedback are based on outcomes after just one iteration of feedback, without unrestricted iterations. This approach highlights the immediate impact of execution feedback on performance improvements across benchmarks.*
 
