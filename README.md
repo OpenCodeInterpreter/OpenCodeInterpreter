@@ -130,6 +130,15 @@ If you find this repo useful for your research, please kindly cite our paper:
 }
 ```
 
+## Acknowledgments
+
+We would like to extend our heartfelt gratitude to [EvalPlus](https://evalplus.github.io/leaderboard.html) for their invaluable support and contributions to our project. The insights and benchmarks provided by EvalPlus have significantly enriched our research and development process. We deeply appreciate their commitment to fostering advancements in the field of code generation and execution.
+
+[![EvalPlus Leaderboard](https://evalplus.github.io/assets/evalplus-leaderboard-banner.png)](https://evalplus.github.io/leaderboard.html)
+
+
+
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=OpenCodeInterpreter/OpenCodeInterpreter&type=Date)](https://star-history.com/#OpenCodeInterpreter/OpenCodeInterpreter&Date)
