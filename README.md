@@ -17,6 +17,8 @@
 
 
 ## 🔔News
+🏆[2024-03-13]: Our 33B model has claimed the top spot on the [BigCode leaderboard](https://huggingface.co/spaces/bigcode/bigcode-models-leaderboard)!
+
 💡[2024-03-06]: We have pushed the model scores of the OpenCodeInterpreter-DS series to [EvalPlus](https://evalplus.github.io/leaderboard.html)!
 
 💡[2024-03-01]: We have open-sourced OpenCodeInterpreter-SC2 series Model (based on StarCoder2 base)! 
