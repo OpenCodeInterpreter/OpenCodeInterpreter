@@ -122,10 +122,8 @@ def sanitize_solution(solution,eofs):
     old_code = old_code.strip()
 
     new_code = sanitize(
-        old_code=old_code,
-        entry_point=entry_point,
-        rm_prefix_lines=None,
-        eofs=eofs,
+        code=old_code,
+        entrypoint=entry_point,
     ).strip()
 
     # if changed, print the message

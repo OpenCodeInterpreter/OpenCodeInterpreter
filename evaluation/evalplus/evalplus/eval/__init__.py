@@ -22,13 +22,18 @@
 
 import itertools
 import multiprocessing
+import os
 import time
 from multiprocessing import Array, Value
 from typing import Any, Dict, List, Tuple, Union
 
 import numpy as np
 
-from evalplus.eval._special_oracle import MBPP_OUTPUT_NOT_NONE_TASKS, _poly
+from evalplus.eval._special_oracle import (
+    MBPP_OUTPUT_NOT_NONE_TASKS,
+    MBPP_OUTPUT_SET_EQ_TASKS,
+    _poly,
+)
 from evalplus.eval.utils import (
     create_tempdir,
     reliability_guard,
@@ -75,16 +80,16 @@ def estimate_pass_at_k(
     )
 
 
-SUCCESS = "success"
-FAILED = "failed"
-TIMEOUT = "timed out"
+PASS = "pass"
+FAIL = "fail"
+TIMEOUT = "timeout"
 
 _SUCCESS = 0
 _FAILED = 1
 _TIMEOUT = 2
 _UNKNOWN = 3
 
-_mapping = {_SUCCESS: SUCCESS, _FAILED: FAILED, _TIMEOUT: TIMEOUT, _UNKNOWN: None}
+_mapping = {_SUCCESS: PASS, _FAILED: FAIL, _TIMEOUT: TIMEOUT, _UNKNOWN: None}
 
 
 def is_floats(x) -> bool:
@@ -107,9 +112,9 @@ def unsafe_execute(
     time_limits,
     atol,
     fast_check,
-    stat: Value,
-    details: Array,
-    progress: Value,
+    stat,  # Value
+    details,  # Array
+    progress,  # Value
 ):
     with create_tempdir():
         # These system calls are needed when cleaning up tempdir.
@@ -128,53 +133,58 @@ def unsafe_execute(
             with swallow_io():
                 exec(code, exec_globals)
                 fn = exec_globals[entry_point]
-                for i, inp in enumerate(inputs):
-                    try:
-                        with time_limit(time_limits[i]):
+
+            for i, inp in enumerate(inputs):
+                try:
+                    with time_limit(time_limits[i]):
+                        with swallow_io():
                             out = fn(*inp)
 
-                        exp = expected[i]
-                        exact_match = out == exp
+                    exp = expected[i]
+                    exact_match = out == exp
 
-                        # ================================================ #
-                        # ============== special oracles ================= #
-                        if dataset == "mbpp":
-                            if (
-                                "are_equivalent" == entry_point
-                            ):  # Mbpp/164 special oracle
-                                exact_match = exact_match or True
-                            elif "sum_div" == entry_point:  # Mbpp/295 special oracle
-                                exact_match = exact_match or out == 0
-                            elif entry_point in MBPP_OUTPUT_NOT_NONE_TASKS:
-                                # exp is True  if not None
-                                #        False if None
-                                if isinstance(out, bool):
-                                    exact_match = out == exp
-                                else:
-                                    exact_match = exp == (out is not None)
+                    # ================================================ #
+                    # ============== special oracles ================= #
+                    if dataset == "mbpp":
+                        if "are_equivalent" == entry_point:  # Mbpp/164 special oracle
+                            exact_match = exact_match or True
+                        elif "sum_div" == entry_point:  # Mbpp/295 special oracle
+                            exact_match = exact_match or out == 0
+                        elif entry_point in MBPP_OUTPUT_SET_EQ_TASKS:
+                            exact_match = set(out) == set(exp)
+                        elif entry_point in MBPP_OUTPUT_NOT_NONE_TASKS:
+                            # exp is True  if not None
+                            #        False if None
+                            if isinstance(out, bool):
+                                exact_match = out == exp
+                            else:
+                                exact_match = exp == (out is not None)
 
-                        if dataset == "humaneval":
-                            if "find_zero" == entry_point:
-                                assert _poly(*out, inp) <= atol
-                        # ============== special oracles ================= #
-                        # ================================================ #
+                    if dataset == "humaneval":
+                        if "find_zero" == entry_point:
+                            assert _poly(*inp, out) <= atol
+                    # ============== special oracles ================= #
+                    # ================================================ #
 
-                        if atol == 0 and is_floats(exp):
-                            atol = 1e-6  # enforce atol for float comparison
-                        if not exact_match and atol != 0:
-                            np.testing.assert_allclose(out, exp, atol=atol)
-                        else:
-                            assert exact_match
-                    except BaseException:
-                        if fast_check:
-                            raise
+                    if atol == 0 and is_floats(exp):
+                        atol = 1e-6  # enforce atol for float comparison
+                    if not exact_match and atol != 0:
+                        # explicitly set rtol=1e-07
+                        # to match `np.testing.assert_allclose`'s default values
+                        assert np.allclose(out, exp, rtol=1e-07, atol=atol)
+                    else:
+                        assert exact_match
+                except BaseException:
+                    if fast_check:
+                        raise
 
-                        details[i] = False
-                        progress.value += 1
-                        continue
-
-                    details[i] = True
+                    details[i] = False
                     progress.value += 1
+                    continue
+
+                details[i] = True
+                progress.value += 1
+
             stat.value = _SUCCESS
         except BaseException:
             stat.value = _FAILED
@@ -197,7 +207,7 @@ def untrusted_check(
     gt_time_limit_factor: float = 2.0,
 ) -> Tuple[str, np.ndarray]:
     time_limits = [max(min_time_limit, gt_time_limit_factor * t) for t in ref_time]
-    timeout = sum(time_limits) + 1
+    timeout = min(os.getenv("EVALPLUS_TIMEOUT_PER_TASK", 60), sum(time_limits)) + 1
     if not fast_check:
         timeout += 1  # extra time for data collection
 
@@ -238,9 +248,9 @@ def untrusted_check(
     if not stat:
         stat = TIMEOUT
 
-    if stat == SUCCESS:
+    if stat == PASS:
         if len(details) != len(inputs) or not all(details):
-            stat = FAILED
+            stat = FAIL
 
     return stat, details
 

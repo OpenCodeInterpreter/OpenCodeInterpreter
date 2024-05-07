@@ -10,10 +10,10 @@ find "$directory" -type d -print0 | while IFS= read -r -d '' folder; do
 
     find "$folder" -type f -name "*humaneval*.jsonl" ! -name "*-sanitized.jsonl" -print0 | while IFS= read -r -d '' jsonl_file; do
         echo "  Processing JSONL File: $jsonl_file"
-        python tools/sanitize.py --samples $jsonl_file --dataset humaneval
+        python tools/sanitize.py --samples $jsonl_file
     done
     find "$folder" -type f -name "*mbpp*.jsonl" ! -name "*-sanitized.jsonl" -print0 | while IFS= read -r -d '' jsonl_file; do
         echo "  Processing JSONL File: $jsonl_file"
-        python tools/sanitize.py --samples $jsonl_file --dataset mbpp
+        python tools/sanitize.py --samples $jsonl_file
     done
 done

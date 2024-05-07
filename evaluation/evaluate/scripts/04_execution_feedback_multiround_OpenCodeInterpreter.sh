@@ -4,9 +4,9 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 cd ../evaluate
 gpu_start=0
 MODEL_NAME_OR_PATHS=(
-/ML-A800/home/zhengtianyu/code-interpreter/OpenCodeInterpreter-DS-6.7B
+OpenCodeInterpreter-DS-6.7B
 )
-DATASET_TYPE="humaneval" #"mbpp"
+DATASET_TYPE="mbpp" #"humaneval","mbpp"
 EVAL_TYPE="plus" #base
 
 for rank in {0..0}; do

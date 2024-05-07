@@ -19,25 +19,7 @@
     <a href="#-acknowledgement">🙏Acknowledgement</a>
 </p>
 
-> [!Important]
-> <div align="center">
-> <b>
-> 📢 Who is the best LLM coder? Take a look at <a href="https://evalplus.github.io/leaderboard.html">the EvalPlus leaderboard 🏆</a>! 📢
-> </b>
-> <br>
-> <b>
-> 🤗 Request for independent model evaluation is <a href="https://github.com/evalplus/evalplus/issues/new/choose">open</a>!
-> </b>
-> </div>
-
 ## About
-
-> [!Warning]
-> <div align="center">
-> <b>
-> 🚨 Evaluating LLM-generated code over datasets with "3 test-cases" is **NOT** enough! 🚨
-> </b>
-> </div>
 
 EvalPlus is a rigorous evaluation framework for LLM4Code, with:
 
@@ -45,15 +27,27 @@ EvalPlus is a rigorous evaluation framework for LLM4Code, with:
 * ✨ **MBPP+**: 35x more tests than the original MBPP!
 * ✨ **Evaluation framework**: our packages/images/tools can easily and safely evaluate LLMs on above benchmarks.
 
-Why EvalPlus? What does using EvalPlus datasets bring to you?
+Why EvalPlus?
 
-* ✨ **Reliable ranking**: See [our leaderboard](https://evalplus.github.io/leaderboard.html) for the latest LLM ranking before and after rigorous evaluation.
-* ✨ **Code robustness**: Look at the score differences! esp. before (e.g., HumanEval) and after (e.g., HumanEval+) using EvalPlus! The drop/gap indicates if the LLM can generate more robust code: less drop means more robustness and a larger drop means the code tends to be more fragile.
-* ✨**Pre-generated samples**: EvalPlus accelerates LLM4Code research by open-sourcing [LLM-generated samples](#-LLM-generated-code) for vairous models -- no need to re-run the expensive benchmarks!
+* ✨ **Precise evaluation & ranking**: See [our leaderboard](https://evalplus.github.io/leaderboard.html) for latest LLM rankings before & after rigorous evaluation.
+* ✨ **Coding rigorousness**: Look at the score differences! esp. before and after using EvalPlus tests! Less drop is better as it means more rigorousness and less laxity in code generation; while a big drop means the generated code tends to be fragile.
+* ✨ **Pre-generated samples**: EvalPlus accelerates LLM4Code research by open-sourcing [LLM-generated samples](#-LLM-generated-code) for various models -- no need to re-run the expensive benchmarks!
 
 Want to know more details? Read our [**NeurIPS'23 paper**](https://openreview.net/forum?id=1qvx610Cu7) [![](https://img.shields.io/badge/Paper-NeurIPS'23-a55fed.svg)](https://openreview.net/forum?id=1qvx610Cu7) as well as our [**Google Slides**](https://docs.google.com/presentation/d/1eTxzUQG9uHaU13BGhrqm4wH5NmMZiM3nI0ezKlODxKs)!
 
+> [!Important]
+>
+> 🚧 **MBPP+ update (`v0.1.0` to `v0.2.0`)**:
+> We recently improved and stablized MBPP+ dataset by removing some tasks whose `test_list` is wrong (brought by the original MBPP dataset itself) to make it more reasonable to solve.
+> In `v0.1.0` MBPP+ has 399 tasks while the new `v0.2.0` has 378 tasks.
+> We also improved the oracle. Therefore, **using `v0.2.0` you might expect ~4pp pass@1 improvement** for both base and plus tests.
+
 ## 🔥 Quick Start
+
+> [!Tip]
+>
+> EvalPlus ❤️ [bigcode-evaluation-harness](https://github.com/bigcode-project/bigcode-evaluation-harness)!
+> HumanEval+ and MBPP+ have been integrated to bigcode-evaluation-harness that you can also run EvalPlus datasets there!
 
 To get started, please first setup the environment:
 
@@ -125,6 +119,37 @@ write_jsonl("samples.jsonl", samples)
 > Only one of `solution` and `completion` is required. If both are provided, `solution` will be used.
 > We also accept solutions in the form of directory, i.e., `--samples ${SAMPLE_DIR}` where `${SAMPLE_DIR}` is organized as: `${SAMPLE_DIR}/${TASK_ID}/{SAMPLE_ID}.py` (`${TASK_ID} = task_id.replace("/", "_")`).
 
+### Code post-processing
+
+LLM-generated text may not be compilable code for including natural language lines or incomplete extra code.
+We provide a tool namely `evalplus.sanitize` to clean up the code:
+
+```shell
+# 💡 If you are storing codes in jsonl:
+evalplus.sanitize --samples samples.jsonl
+# Sanitized code will be produced to `samples-sanitized.jsonl`
+
+# 💡 If you are storing codes in directories:
+evalplus.sanitize --samples /path/to/vicuna-[??]b_temp_[??]
+# Sanitized code will be produced to `/path/to/vicuna-[??]b_temp_[??]-sanitized`
+```
+
+<details><summary>🔎 Checking the compilability of post-processed code<i>:: click to expand ::</i></summary>
+<div>
+
+To double-check the post-processing results, you can use `evalplus.syncheck` to check the code validity before and after sanitization, which will print erroneous code snippets and why they are wrong:
+
+```shell
+# 💡 If you are storing codes in jsonl:
+evalplus.syncheck --samples samples.jsonl --dataset [humaneval|mbpp]
+
+# 💡 If you are storing codes in directories:
+evalplus.syncheck --samples /path/to/vicuna-[??]b_temp_[??] --dataset [humaneval|mbpp]
+```
+
+</div>
+</details>
+
 ### Code evaluation
 
 You are strongly recommended to use a sandbox such as [docker](https://docs.docker.com/get-docker/):
@@ -139,7 +164,7 @@ docker run -v $(pwd):/app ganler/evalplus:latest --dataset [humaneval|mbpp] --sa
 evalplus.evaluate --dataset [humaneval|mbpp] --samples samples.jsonl
 ```
 
-> [!Warning]
+> [!Tip]
 >
 > Do you use a very slow machine?
 >
@@ -200,7 +225,7 @@ Base + Extra
 <div>
 
 If you do greedy decoding where there is only one sample for each task, the evaluation should take just a few seconds.
-When running 200 samples x 164 tasks x ~700+ tests, it can take around 2-10 minute by using `--parallel 64` and `--test-details`.
+When running 200 samples x 164 tasks x ~700+ tests, it can take around 2-10 minutes by using `--parallel 64` and `--test-details`.
 Here are some tips to speed up the evaluation:
 
 * Use `--parallel $(nproc)`
@@ -211,7 +236,7 @@ Here are some tips to speed up the evaluation:
 </div>
 </details>
 
-> [!Note]
+> [!Tip]
 >
 > 🚀 **Try out `HumanEvalPlus-Mini`!** which selects a *minimal* set of additional tests with the highest quality, achieving almost the same effectiveness of the full version. Just add a **`--mini`** flag, it can run 23+% faster! (even faster if you evaluate all tests without fail-stop with `--test-details`).
 >
@@ -243,62 +268,27 @@ To use these tools, please first install the repository from GitHub:
 ```bash
 git clone https://github.com/evalplus/evalplus.git
 cd evalplus
-pip install -r requirements-tools.txt
+pip install -r tools/requirements.txt
 ```
 
-### Syntax checker for LLM-generated code
+### Code generation
 
-Check LLM-produced code and answer the following questions:
+You can use `codegen/generate.py` to performance code generation.
+We currently support following backends:
 
-1. Is the generation entirely done for all samples / all problems in the dataset?
-2. Are LLM-generated code compilable? (if no, something could be wrong and you'd better check)
+* `vllm`: Set `--model` as Hugging Face model ID such as `microsoft/Phi-3-mini-128k-instruct`
+* `hf`: HuggingFace Transformers; same way to setup `--model`
+* `openai`: Configure `OPENAI_API_KEY`; one can configure `--base-url`
+* `anthropic`: Configure `ANTHROPIC_API_KEY`
+* `mistral`: Configure `MISTRAL_API_KEY`
 
 ```shell
-# Set PYTHONPATH to run local Python files
-export PYTHONPATH=$PYTHONPATH:$(pwd)
-
-python tools/checker.py --samples samples.jsonl --dataset [humaneval|mbpp]
-# --samples can also be a directory organized as: ${SAMPLE_DIR}/${TASK_ID}/{SAMPLE_ID}.py
+python codegen/generate.py --model "mistralai/Mistral-7B-Instruct-v0.2" --greedy --root [result_path] --dataset [mbpp|humaneval] --backend [vllm]
 ```
 
-### Post code sanitizer
+### Test input generation using EvalPlus
 
-LLM-generated code may contain some syntax errors.
-But some of them can be easily fixable by doing simple post-processing.
-This tool will make the LLM-generated code more clean/compilable by doing certain post-processing such as trimming with more magical EOFs and some garbage non-code tokens.
-
-```shell
-# Set PYTHONPATH to run local Python files
-export PYTHONPATH=$PYTHONPATH:$(pwd)
-
-# 💡 If you are storing codes in directories:
-python tools/sanitize.py --samples samples.jsonl --dataset [humaneval|mbpp]
-# Sanitized code will be produced to `samples-sanitized.jsonl`
-
-# 💡 If you are storing codes in directories:
-python tools/sanitize.py --samples /path/to/vicuna-[??]b_temp_[??] --dataset [humaneval|mbpp]
-# Sanitized code will be produced to `/path/to/vicuna-[??]b_temp_[??]-sanitized`
-```
-
-You should now further check the validity of sanitized code with `tools/checker.py`.
-Sometimes (e.g., Chat models) there might be some natural language lines that impact the compilation.
-You might use `--rm-prefix-lines` to cut those NL lines with a prefix (e.g., `--rm-prefix-lines "Here's"`).
-
-### Render `pass@k` results to `rich` and LaTeX tables
-
-```shell
-python tools/render.py --type /path/to/[model]-[??]b # NOTE: no `_temp_[??]`
-```
-
-![](./gallary/render.gif)
-
-### Perform test input generation from scratch (TBD)
-
-
-### Name convention
-
-- `evalplus` is the package name.
-- `${DATASET}_plus` is the name of dataset applied with `evalplus`.
+Please check `evalplus/inputgen.py`.
 
 ## 📜 Citation
 

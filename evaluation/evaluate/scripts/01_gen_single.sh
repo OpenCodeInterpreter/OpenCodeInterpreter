@@ -4,7 +4,7 @@ export PYTHONPATH=$PYTHONPATH:$(pwd)
 cd ../evaluate
 gpu_start=0
 MODEL_NAME_OR_PATHS=(
-/ML-A800/home/zhengtianyu/code-interpreter/OpenCodeInterpreter-DS-6.7B
+OpenCodeInterpreter-DS-6.7B
 )
 DATASET_TYPES=(
 humaneval

@@ -8,7 +8,7 @@ import time
 from collections import Counter, defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Tuple
 from warnings import warn
 
 import numpy as np
@@ -22,9 +22,10 @@ from evalplus.data import (
     get_mbpp_plus_hash,
     load_solutions,
 )
+from evalplus.data.mbpp import mbpp_serialize_inputs
 from evalplus.data.utils import CACHE_DIR
 from evalplus.eval import (
-    SUCCESS,
+    PASS,
     compatible_eval_result,
     estimate_pass_at_k,
     untrusted_check,
@@ -85,11 +86,12 @@ def check_correctness(
     identifier=None,
     min_time_limit: float = 0.1,
     gt_time_limit_factor: float = 2.0,
-) -> Dict[str, Union[int, Optional[Result]]]:
+) -> Dict[str, Result]:  # {...}, "base" | "plus" -> (status, details)
     ret = {
         "completion_id": completion_id,
         "task_id": problem["task_id"],
         "_identifier": identifier,
+        "solution": solution,
     }
     ret["base"] = untrusted_check(
         dataset,
@@ -141,12 +143,20 @@ def evaluate(flags):
         results = compatible_eval_result(results)
     else:
         if flags.dataset == "humaneval":
-            problems = get_human_eval_plus(mini=flags.mini)
-            dataset_hash = get_human_eval_plus_hash()
+            problems = get_human_eval_plus(
+                mini=flags.mini, noextreme=flags.noextreme, version=flags.version
+            )
+            dataset_hash = get_human_eval_plus_hash(
+                mini=flags.mini, noextreme=flags.noextreme, version=flags.version
+            )
             expected_output = get_groundtruth(problems, dataset_hash, [])
         elif flags.dataset == "mbpp":
-            problems = get_mbpp_plus(mini=flags.mini)
-            dataset_hash = get_mbpp_plus_hash()
+            problems = get_mbpp_plus(
+                mini=flags.mini, noextreme=flags.noextreme, version=flags.version
+            )
+            dataset_hash = get_mbpp_plus_hash(
+                mini=flags.mini, noextreme=flags.noextreme, version=flags.version
+            )
             expected_output = get_groundtruth(
                 problems,
                 dataset_hash,
@@ -163,12 +173,17 @@ def evaluate(flags):
             futures = []
             completion_id = Counter()
             n_samples = 0
-            eval_results = defaultdict(list)
+            eval_results = defaultdict(list)  # task_id ->
             remainings = set()
 
             print("Reading samples...")
             for sample in tqdm(load_solutions(flags.samples)):
                 task_id = sample["task_id"]
+                if task_id not in problems:
+                    warn(
+                        f"Task {task_id} is found in the samples but not found in the dataset"
+                    )
+                    continue
                 solution = (
                     sample["solution"]
                     if "solution" in sample
@@ -214,45 +229,66 @@ def evaluate(flags):
         # sort the results for each problem by completion_id
         for task_id, task_results in eval_results.items():
             task_results.sort(key=lambda x: x["completion_id"])
-            results["eval"][task_id] = {
-                "nfiles": len(task_results),
-                "base": [x["base"] for x in task_results],
-                "plus": [x["plus"] for x in task_results]
-                if not flags.base_only
-                else [],
-            }
+            results["eval"][task_id] = []
+            for res in task_results:
 
-    if os.path.isfile(result_path) and flags.i_just_wanna_run:
-        decision = ""
-        # while decision.lower() not in ["y", "n"]:
-        #     print(f"{result_path} already exists. Press [Y/N] to overwrite or exit...")
-        #     decision = input()
-        # if decision.lower() == "y":
-        # mv the file to a backup
-        new_path = result_path + ".bak"
-        while os.path.isfile(new_path):
-            new_path += ".bak"
-        os.rename(result_path, new_path)
-        print(f"Backup {result_path} to {new_path}")
+                def get_failed_tests(stat, details, inputs) -> List[Any]:
+                    if stat == PASS or not details:
+                        return []
 
-    if not os.path.isfile(result_path):
-        with open(result_path, "w") as f:
-            json.dump(results, f)
+                    if flags.test_details:
+                        return [
+                            inputs[i] for i in range(len(details)) if not details[i]
+                        ]
+
+                    # esle => simply return the only and the last fail test
+                    return [inputs[len(details)]]
+
+                base_stat, base_details = res["base"]
+                base_fail_tests = get_failed_tests(
+                    base_stat, base_details, problems[task_id]["base_input"]
+                )
+
+                # initialize plus tests
+                plus_stat = None
+                plus_fail_tests = []
+
+                # with plus tests
+                if not flags.base_only:
+                    plus_stat, plus_details = res["plus"]
+                    plus_fail_tests = get_failed_tests(
+                        plus_stat, plus_details, problems[task_id]["plus_input"]
+                    )
+
+                if flags.dataset == "mbpp":
+                    base_fail_tests = mbpp_serialize_inputs(task_id, base_fail_tests)
+                    plus_fail_tests = mbpp_serialize_inputs(task_id, plus_fail_tests)
+
+                results["eval"][task_id].append(
+                    {
+                        "task_id": task_id,
+                        "solution": res["solution"],
+                        "base_status": base_stat,
+                        "plus_status": plus_stat,
+                        "base_fail_tests": base_fail_tests,
+                        "plus_fail_tests": plus_fail_tests,
+                    }
+                )
 
     # Calculate pass@k.
-    total = np.array([r["nfiles"] for r in results["eval"].values()])
+    total = np.array([len(r) for r in results["eval"].values()])
     base_correct = []
     new_correct = []
 
     for res in results["eval"].values():
-        bc = sum([r[0] == SUCCESS for r in res["base"]])
+        bc = sum([r["base_status"] == PASS for r in res])
         base_correct.append(bc)
-        if res["plus"]:
+        if not flags.base_only:
             new_correct.append(
                 sum(
                     [
-                        res["plus"][i][0] == res["base"][i][0] == SUCCESS
-                        for i in range(len(res["plus"]))
+                        res[i]["base_status"] == res[i]["plus_status"] == PASS
+                        for i in range(len(res))
                     ]
                 )
             )
@@ -277,6 +313,25 @@ def evaluate(flags):
         for k, v in pass_at_k.items():
             cprint(f"{k}:\t{v:.3f}", "green")
 
+    # save results
+    if os.path.isfile(result_path) and flags.i_just_wanna_run:
+        decision = ""
+        while decision.lower() not in ["y", "n"]:
+            print(f"{result_path} already exists. Press [Y/N] to overwrite or exit...")
+            decision = input()
+
+        if decision.lower() == "y":
+            # mv the file to a backup
+            new_path = result_path + ".bak"
+            while os.path.isfile(new_path):
+                new_path += ".bak"
+            os.rename(result_path, new_path)
+            print(f"Backup {result_path} to {new_path}")
+
+    if not os.path.isfile(result_path):
+        with open(result_path, "w") as f:
+            json.dump(results, f)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -291,6 +346,12 @@ def main():
     parser.add_argument("--min-time-limit", default=1, type=float)
     parser.add_argument("--gt-time-limit-factor", default=4.0, type=float)
     parser.add_argument("--mini", action="store_true")
+    parser.add_argument(
+        "--noextreme", action="store_true", help="Omit extreme test inputs"
+    )
+    parser.add_argument(
+        "--version", default="default", type=str, help="Version of the dataset"
+    )
     args = parser.parse_args()
 
     evaluate(args)
