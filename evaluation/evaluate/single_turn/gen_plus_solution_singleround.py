@@ -96,9 +96,6 @@ def gen_solution(args):
     model_name = model_path.replace("/", "_")
     if args.dataset=="humaneval":
         examples = get_human_eval_plus().items()
-        # examples,plus_path = get_human_eval_plus()
-        # examples = examples.items()
-        logging.info(f"PLUS PATH {plus_path}")
     else:
         examples = get_mbpp_plus().items()
     logging.info("Read {} examples for evaluation over.".format(len(examples)))
