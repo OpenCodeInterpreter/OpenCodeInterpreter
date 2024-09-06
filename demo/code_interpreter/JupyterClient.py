@@ -13,10 +13,13 @@ class JupyterNotebook:
 
     def clean_output(self, outputs):
         outputs_only_str = list()
+        image = None
         for i in outputs:
             if type(i) == dict:
                 if "text/plain" in list(i.keys()):
                     outputs_only_str.append(i["text/plain"])
+                if "image/png" in list(i.keys()):
+                    image = i["image/png"]
             elif type(i) == str:
                 outputs_only_str.append(i)
             elif type(i) == list:
@@ -24,7 +27,7 @@ class JupyterNotebook:
                 error_msg = re.sub(r"\x1b\[.*?m", "", error_msg)
                 outputs_only_str.append(error_msg)
 
-        return "\n".join(outputs_only_str).strip()
+        return "\n".join(outputs_only_str).strip(), image
 
     def add_and_run(self, code_string):
         # This inner function will be executed in a separate thread
@@ -48,7 +51,9 @@ class JupyterNotebook:
                     elif msg_type == "error":
                         error_flag = True
                         outputs.append(content["traceback"])
-
+                    elif msg_type == 'display_data':
+                        if 'image/png' in msg['content']['data']:
+                            outputs.append(content["data"])
                     # If the execution state of the kernel is idle, it means the cell finished executing
                     if msg_type == "status" and content["execution_state"] == "idle":
                         break

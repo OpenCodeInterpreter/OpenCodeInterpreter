@@ -24,6 +24,6 @@ class BaseCodeInterpreter:
         return [block.strip() for block in code_blocks]
 
     def execute_code_and_return_output(self, code_str: str, nb):
-        _, _ = nb.add_and_run(GUARD_CODE)
-        outputs, error_flag = nb.add_and_run(code_str)
-        return outputs, error_flag
+        (_, _), _ = nb.add_and_run(GUARD_CODE)
+        (outputs, image), error_flag = nb.add_and_run(code_str)
+        return outputs, image, error_flag

@@ -223,6 +223,7 @@ def gradio_launch(model_path: str, MAX_TRY: int = 3):
                 else:
                     (
                         code_block_output,
+                        image_output,
                         error_flag,
                     ) = interpreter.execute_code_and_return_output(
                         f"{generated_code_block}",
@@ -237,8 +238,12 @@ def gradio_launch(model_path: str, MAX_TRY: int = 3):
                         code_block_output = "Execution result: \n" + code_block_output
                     else:
                         code_block_output = "Code is executed, but result is empty. Please make sure that you include test case in your code."
-
-                history.append([code_block_output, ""])
+                    if image_output:
+                        img_str = f"data:image/png;base64,{image_output}"
+                        image_html_output = f"<img src='{img_str}' alt='Display Image'>"
+                        history.append([code_block_output + "\n" + image_html_output, ""])
+                    else:
+                        history.append([code_block_output, ""])
 
                 interpreter.dialog.append({"role": "user", "content": code_block_output})
 
