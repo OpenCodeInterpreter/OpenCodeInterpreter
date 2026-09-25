@@ -1,6 +1,6 @@
 notebook==6.5.4
 openai==0.27.8
-gradio==3.39.0
+gradio>=4.37.1
 ansi2html==1.8.0
 tiktoken
 Pillow
